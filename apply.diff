@@ -1,0 +1,573 @@
+diff --git a/dom/base/Navigator.cpp b/dom/base/Navigator.cpp
+old mode 100644
+new mode 100755
+index 20da8f9..590fb67
+--- a/dom/base/Navigator.cpp
++++ b/dom/base/Navigator.cpp
+@@ -147,12 +147,15 @@
+ #ifdef ENABLE_FOTA
+ #include "mozilla/dom/fota/FotaEngine.h"
+ #endif
++#include "mozilla/dom/gmodule/Gmodule.h"
+ namespace mozilla {
+ using namespace toolkit;
+ namespace dom {
+ #ifdef ENABLE_FOTA
+ using namespace fota;
+ #endif
++using namespace gmodule;
++
+ static bool sDoNotTrackEnabled = false;
+ static bool sVibratorEnabled   = false;
+ static uint32_t sMaxVibrateMS  = 0;
+@@ -1235,6 +1238,13 @@ Navigator::GetFota(ErrorResult& aRv)
+   return mFotaEngine;
+ }
+ #endif
++Gmodule* Navigator::GetMozGmodule(ErrorResult& aRv) {
++  if (!mGmodule) {
++    mGmodule = new Gmodule(mWindow);
++  }
++  return mGmodule;
++}
++
+ class BeaconStreamListener final : public nsIStreamListener
+ {
+     ~BeaconStreamListener() {}
+diff --git a/dom/base/Navigator.h b/dom/base/Navigator.h
+old mode 100644
+new mode 100755
+index 35b9a17..f845eba
+--- a/dom/base/Navigator.h
++++ b/dom/base/Navigator.h
+@@ -129,6 +129,11 @@ class AudioChannelManager;
+ namespace fota {
+ class FotaEngine;
+ }
++
++namespace gmodule {
++class Gmodule;
++} // namespace gmodule
++
+ #endif
+ class Navigator final : public nsIDOMNavigator
+                       , public nsIMozNavigatorNetwork
+@@ -323,6 +328,8 @@ public:
+ #ifdef ENABLE_FOTA
+   fota::FotaEngine* GetFota(ErrorResult& aRv);
+ #endif
++  gmodule::Gmodule* GetMozGmodule(ErrorResult& aRv);   // for gmodel
++
+   bool SendBeacon(const nsAString& aUrl,
+                   const Nullable<ArrayBufferViewOrBlobOrStringOrFormData>& aData,
+                   ErrorResult& aRv);
+@@ -453,6 +460,8 @@ private:
+ #ifdef ENABLE_FOTA
+   RefPtr<fota::FotaEngine> mFotaEngine;
+ #endif
++  RefPtr<gmodule::Gmodule> mGmodule;  // for gmodule
++
+   nsTArray<RefPtr<Promise> > mVRGetDevicesPromises;
+ #ifdef HAS_KOOST_MODULES
+   RefPtr<VolumeManager> mVolumeManager;
+diff --git a/dom/bindings/Bindings.conf b/dom/bindings/Bindings.conf
+old mode 100644
+new mode 100755
+index 6231800..bc12dae
+--- a/dom/bindings/Bindings.conf
++++ b/dom/bindings/Bindings.conf
+@@ -541,6 +541,10 @@ DOMInterfaces = {
+     'headerFile': 'nsGeolocation.h'
+ },
+ 
++'Gmodule': {
++    'nativeType': 'mozilla::dom::gmodule::Gmodule',
++},
++
+ 'HeapSnapshot': {
+     'nativeType': 'mozilla::devtools::HeapSnapshot'
+ },
+diff --git a/dom/gmodule/apply.diff b/dom/gmodule/apply.diff
+index 66aff56..e69de29 100644
+--- a/dom/gmodule/apply.diff
++++ b/dom/gmodule/apply.diff
+@@ -1,284 +0,0 @@
+-diff --git a/dom/base/Navigator.cpp b/dom/base/Navigator.cpp
+-old mode 100644
+-new mode 100755
+-index 20da8f9..590fb67
+---- a/dom/base/Navigator.cpp
+-+++ b/dom/base/Navigator.cpp
+-@@ -147,12 +147,15 @@
+- #ifdef ENABLE_FOTA
+- #include "mozilla/dom/fota/FotaEngine.h"
+- #endif
+-+#include "mozilla/dom/gmodule/Gmodule.h"
+- namespace mozilla {
+- using namespace toolkit;
+- namespace dom {
+- #ifdef ENABLE_FOTA
+- using namespace fota;
+- #endif
+-+using namespace gmodule;
+-+
+- static bool sDoNotTrackEnabled = false;
+- static bool sVibratorEnabled   = false;
+- static uint32_t sMaxVibrateMS  = 0;
+-@@ -1235,6 +1238,13 @@ Navigator::GetFota(ErrorResult& aRv)
+-   return mFotaEngine;
+- }
+- #endif
+-+Gmodule* Navigator::GetMozGmodule(ErrorResult& aRv) {
+-+  if (!mGmodule) {
+-+    mGmodule = new Gmodule(mWindow);
+-+  }
+-+  return mGmodule;
+-+}
+-+
+- class BeaconStreamListener final : public nsIStreamListener
+- {
+-     ~BeaconStreamListener() {}
+-diff --git a/dom/base/Navigator.h b/dom/base/Navigator.h
+-old mode 100644
+-new mode 100755
+-index 35b9a17..f845eba
+---- a/dom/base/Navigator.h
+-+++ b/dom/base/Navigator.h
+-@@ -129,6 +129,11 @@ class AudioChannelManager;
+- namespace fota {
+- class FotaEngine;
+- }
+-+
+-+namespace gmodule {
+-+class Gmodule;
+-+} // namespace gmodule
+-+
+- #endif
+- class Navigator final : public nsIDOMNavigator
+-                       , public nsIMozNavigatorNetwork
+-@@ -323,6 +328,8 @@ public:
+- #ifdef ENABLE_FOTA
+-   fota::FotaEngine* GetFota(ErrorResult& aRv);
+- #endif
+-+  gmodule::Gmodule* GetMozGmodule(ErrorResult& aRv);   // for gmodel
+-+
+-   bool SendBeacon(const nsAString& aUrl,
+-                   const Nullable<ArrayBufferViewOrBlobOrStringOrFormData>& aData,
+-                   ErrorResult& aRv);
+-@@ -453,6 +460,8 @@ private:
+- #ifdef ENABLE_FOTA
+-   RefPtr<fota::FotaEngine> mFotaEngine;
+- #endif
+-+  RefPtr<gmodule::Gmodule> mGmodule;  // for gmodule
+-+
+-   nsTArray<RefPtr<Promise> > mVRGetDevicesPromises;
+- #ifdef HAS_KOOST_MODULES
+-   RefPtr<VolumeManager> mVolumeManager;
+-diff --git a/dom/bindings/Bindings.conf b/dom/bindings/Bindings.conf
+-old mode 100644
+-new mode 100755
+-index 6231800..bc12dae
+---- a/dom/bindings/Bindings.conf
+-+++ b/dom/bindings/Bindings.conf
+-@@ -541,6 +541,10 @@ DOMInterfaces = {
+-     'headerFile': 'nsGeolocation.h'
+- },
+- 
+-+'Gmodule': {
+-+    'nativeType': 'mozilla::dom::gmodule::Gmodule',
+-+},
+-+
+- 'HeapSnapshot': {
+-     'nativeType': 'mozilla::devtools::HeapSnapshot'
+- },
+-diff --git a/dom/ipc/ContentChild.cpp b/dom/ipc/ContentChild.cpp
+-old mode 100644
+-new mode 100755
+-index 2183eb4..894e52b
+---- a/dom/ipc/ContentChild.cpp
+-+++ b/dom/ipc/ContentChild.cpp
+-@@ -180,6 +180,7 @@
+- #include "mozilla/dom/devicestorage/DeviceStorageRequestChild.h"
+- #include "mozilla/dom/bluetooth/PBluetoothChild.h"
+- #include "mozilla/dom/PFMRadioChild.h"
+-+#include "mozilla/dom/gmodule/PGmoduleChild.h"
+- #include "mozilla/dom/PPresentationChild.h"
+- #include "mozilla/dom/PresentationIPCService.h"
+- #include "mozilla/dom/subsidylock/SubsidyLockChild.h"
+-@@ -243,6 +244,7 @@ using namespace mozilla::widget;
+- #ifdef ENABLE_FOTA
+- using namespace mozilla::dom::fota;
+- #endif
+-+using namespace mozilla::dom::gmodule;
+- namespace mozilla {
+- namespace dom {
+- 
+-@@ -2218,6 +2220,21 @@ ContentChild::DeallocPFMRadioChild(PFMRadioChild* aActor)
+- #endif
+- }
+- 
+-+// for Gmodule
+-+PGmoduleChild*
+-+ContentChild::AllocPGmoduleChild()
+-+{
+-+  NS_RUNTIMEABORT("No one should be allocating PGmoduleChild actors");
+-+  return nullptr;
+-+}
+-+
+-+bool
+-+ContentChild::DeallocPGmoduleChild(PGmoduleChild* aActor)
+-+{
+-+  delete aActor;
+-+  return true;
+-+}
+-+
+- PSpeechSynthesisChild*
+- ContentChild::AllocPSpeechSynthesisChild()
+- {
+-diff --git a/dom/ipc/ContentChild.h b/dom/ipc/ContentChild.h
+-old mode 100644
+-new mode 100755
+-index 6835eef..173d09a
+---- a/dom/ipc/ContentChild.h
+-+++ b/dom/ipc/ContentChild.h
+-@@ -383,6 +383,11 @@ public:
+- 
+-   virtual bool DeallocPFMRadioChild(PFMRadioChild* aActor) override;
+- 
+-+// for Gmodule
+-+  virtual PGmoduleChild* AllocPGmoduleChild() override;
+-+
+-+  virtual bool DeallocPGmoduleChild(PGmoduleChild* aActor) override;
+-+
+-   virtual PPresentationChild* AllocPPresentationChild() override;
+- 
+-   virtual bool DeallocPPresentationChild(PPresentationChild* aActor) override;
+-diff --git a/dom/ipc/ContentParent.cpp b/dom/ipc/ContentParent.cpp
+-old mode 100644
+-new mode 100755
+-index 4e0e12a..145572f
+---- a/dom/ipc/ContentParent.cpp
+-+++ b/dom/ipc/ContentParent.cpp
+-@@ -57,6 +57,7 @@
+- #include "mozilla/dom/PContentPermissionRequestParent.h"
+- #include "mozilla/dom/PCycleCollectWithLogsParent.h"
+- #include "mozilla/dom/PFMRadioParent.h"
+-+#include "mozilla/dom/gmodule/GmoduleParent.h"
+- #include "mozilla/dom/PMemoryReportRequestParent.h"
+- #include "mozilla/dom/ServiceWorkerRegistrar.h"
+- #include "mozilla/dom/bluetooth/PBluetoothParent.h"
+-@@ -321,6 +322,7 @@ using namespace mozilla::widget;
+- #ifdef ENABLE_FOTA
+- using namespace mozilla::dom::fota;
+- #endif
+-+using namespace mozilla::dom::gmodule;
+- // XXX Workaround for bug 986973 to maintain the existing broken semantics
+- template<>
+- struct nsIConsoleService::COMTypeInfo<nsConsoleService, void> {
+-@@ -4187,6 +4189,19 @@ ContentParent::DeallocPFMRadioParent(PFMRadioParent* aActor)
+- #endif
+- }
+- 
+-+PGmoduleParent*
+-+ContentParent::AllocPGmoduleParent()
+-+{
+-+  return new GmoduleParent();
+-+}
+-+
+-+bool
+-+ContentParent::DeallocPGmoduleParent(PGmoduleParent* aActor)
+-+{
+-+  delete aActor;
+-+  return true;
+-+}
+-+
+- PPresentationParent*
+- ContentParent::AllocPPresentationParent()
+- {
+-diff --git a/dom/ipc/ContentParent.h b/dom/ipc/ContentParent.h
+-old mode 100644
+-new mode 100755
+-index 3e4bee4..eddbd7c
+---- a/dom/ipc/ContentParent.h
+-+++ b/dom/ipc/ContentParent.h
+-@@ -881,6 +881,11 @@ private:
+- 
+-   virtual bool DeallocPFMRadioParent(PFMRadioParent* aActor) override;
+- 
+-+// for Gmodule
+-+  virtual PGmoduleParent* AllocPGmoduleParent() override;
+-+
+-+  virtual bool DeallocPGmoduleParent(PGmoduleParent* aActor) override;
+-+
+-   virtual PPresentationParent* AllocPPresentationParent() override;
+- 
+-   virtual bool DeallocPPresentationParent(PPresentationParent* aActor) override;
+-diff --git a/dom/ipc/PContent.ipdl b/dom/ipc/PContent.ipdl
+-old mode 100644
+-new mode 100755
+-index 1183b70..b2214ae
+---- a/dom/ipc/PContent.ipdl
+-+++ b/dom/ipc/PContent.ipdl
+-@@ -21,6 +21,7 @@ include protocol PHandlerService;
+- include protocol PDeviceStorageRequest;
+- include protocol PFileDescriptorSet;
+- include protocol PFMRadio;
+-+include protocol PGmodule;
+- include protocol PHal;
+- include protocol PHeapSnapshotTempFileHelper;
+- include protocol PIcc;
+-@@ -423,6 +424,7 @@ prio(normal upto urgent) sync protocol PContent
+-     manages PExternalHelperApp;
+-     manages PFileDescriptorSet;
+-     manages PFMRadio;
+-+    manages PGmodule;  // for pGmodule
+-     manages PHal;
+-     manages PHandlerService;
+-     manages PHeapSnapshotTempFileHelper;
+-@@ -891,6 +893,8 @@ parent:
+- 
+-     async PFMRadio();
+- 
+-+    async PGmodule();
+-+
+-     async PWebrtcGlobal();
+- 
+-     async PPresentation();
+-diff --git a/dom/moz.build b/dom/moz.build
+-old mode 100644
+-new mode 100755
+-index 82e9df7..fb79225
+---- a/dom/moz.build
+-+++ b/dom/moz.build
+-@@ -183,3 +183,5 @@ TEST_DIRS += [
+- if CONFIG['MOZ_WIDGET_TOOLKIT'] in ('gtk2', 'gtk3', 'cocoa', 'windows', 'android', 'qt'):
+-     TEST_DIRS += ['plugins/test']
+- 
+-+DIRS += ['gmodule']
+-+
+-diff --git a/dom/webidl/Navigator.webidl b/dom/webidl/Navigator.webidl
+-old mode 100644
+-new mode 100755
+-index e0c8fcd..f500857
+---- a/dom/webidl/Navigator.webidl
+-+++ b/dom/webidl/Navigator.webidl
+-@@ -573,3 +573,8 @@ partial interface Navigator {
+- };
+- #endif
+- 
+-+partial interface Navigator {
+-+  [Throws]
+-+  readonly attribute Gmodule mozGmodule;
+-+};
+-+
+-diff --git a/dom/webidl/moz.build b/dom/webidl/moz.build
+-old mode 100644
+-new mode 100755
+-index 93177ad..5061e1e
+---- a/dom/webidl/moz.build
+-+++ b/dom/webidl/moz.build
+-@@ -993,3 +993,7 @@ if CONFIG['ENABLE_U2F']:
+-     WEBIDL_FILES += [
+-         'U2F.webidl'
+-     ]
+-+
+-+WEBIDL_FILES += [
+-+    'Gmodule.webidl'
+-+]
+-\ No newline at end of file
+diff --git a/dom/ipc/ContentChild.cpp b/dom/ipc/ContentChild.cpp
+old mode 100644
+new mode 100755
+index 2183eb4..894e52b
+--- a/dom/ipc/ContentChild.cpp
++++ b/dom/ipc/ContentChild.cpp
+@@ -180,6 +180,7 @@
+ #include "mozilla/dom/devicestorage/DeviceStorageRequestChild.h"
+ #include "mozilla/dom/bluetooth/PBluetoothChild.h"
+ #include "mozilla/dom/PFMRadioChild.h"
++#include "mozilla/dom/gmodule/PGmoduleChild.h"
+ #include "mozilla/dom/PPresentationChild.h"
+ #include "mozilla/dom/PresentationIPCService.h"
+ #include "mozilla/dom/subsidylock/SubsidyLockChild.h"
+@@ -243,6 +244,7 @@ using namespace mozilla::widget;
+ #ifdef ENABLE_FOTA
+ using namespace mozilla::dom::fota;
+ #endif
++using namespace mozilla::dom::gmodule;
+ namespace mozilla {
+ namespace dom {
+ 
+@@ -2218,6 +2220,21 @@ ContentChild::DeallocPFMRadioChild(PFMRadioChild* aActor)
+ #endif
+ }
+ 
++// for Gmodule
++PGmoduleChild*
++ContentChild::AllocPGmoduleChild()
++{
++  NS_RUNTIMEABORT("No one should be allocating PGmoduleChild actors");
++  return nullptr;
++}
++
++bool
++ContentChild::DeallocPGmoduleChild(PGmoduleChild* aActor)
++{
++  delete aActor;
++  return true;
++}
++
+ PSpeechSynthesisChild*
+ ContentChild::AllocPSpeechSynthesisChild()
+ {
+diff --git a/dom/ipc/ContentChild.h b/dom/ipc/ContentChild.h
+old mode 100644
+new mode 100755
+index 6835eef..173d09a
+--- a/dom/ipc/ContentChild.h
++++ b/dom/ipc/ContentChild.h
+@@ -383,6 +383,11 @@ public:
+ 
+   virtual bool DeallocPFMRadioChild(PFMRadioChild* aActor) override;
+ 
++// for Gmodule
++  virtual PGmoduleChild* AllocPGmoduleChild() override;
++
++  virtual bool DeallocPGmoduleChild(PGmoduleChild* aActor) override;
++
+   virtual PPresentationChild* AllocPPresentationChild() override;
+ 
+   virtual bool DeallocPPresentationChild(PPresentationChild* aActor) override;
+diff --git a/dom/ipc/ContentParent.cpp b/dom/ipc/ContentParent.cpp
+old mode 100644
+new mode 100755
+index 4e0e12a..145572f
+--- a/dom/ipc/ContentParent.cpp
++++ b/dom/ipc/ContentParent.cpp
+@@ -57,6 +57,7 @@
+ #include "mozilla/dom/PContentPermissionRequestParent.h"
+ #include "mozilla/dom/PCycleCollectWithLogsParent.h"
+ #include "mozilla/dom/PFMRadioParent.h"
++#include "mozilla/dom/gmodule/GmoduleParent.h"
+ #include "mozilla/dom/PMemoryReportRequestParent.h"
+ #include "mozilla/dom/ServiceWorkerRegistrar.h"
+ #include "mozilla/dom/bluetooth/PBluetoothParent.h"
+@@ -321,6 +322,7 @@ using namespace mozilla::widget;
+ #ifdef ENABLE_FOTA
+ using namespace mozilla::dom::fota;
+ #endif
++using namespace mozilla::dom::gmodule;
+ // XXX Workaround for bug 986973 to maintain the existing broken semantics
+ template<>
+ struct nsIConsoleService::COMTypeInfo<nsConsoleService, void> {
+@@ -4187,6 +4189,19 @@ ContentParent::DeallocPFMRadioParent(PFMRadioParent* aActor)
+ #endif
+ }
+ 
++PGmoduleParent*
++ContentParent::AllocPGmoduleParent()
++{
++  return new GmoduleParent();
++}
++
++bool
++ContentParent::DeallocPGmoduleParent(PGmoduleParent* aActor)
++{
++  delete aActor;
++  return true;
++}
++
+ PPresentationParent*
+ ContentParent::AllocPPresentationParent()
+ {
+diff --git a/dom/ipc/ContentParent.h b/dom/ipc/ContentParent.h
+old mode 100644
+new mode 100755
+index 3e4bee4..eddbd7c
+--- a/dom/ipc/ContentParent.h
++++ b/dom/ipc/ContentParent.h
+@@ -881,6 +881,11 @@ private:
+ 
+   virtual bool DeallocPFMRadioParent(PFMRadioParent* aActor) override;
+ 
++// for Gmodule
++  virtual PGmoduleParent* AllocPGmoduleParent() override;
++
++  virtual bool DeallocPGmoduleParent(PGmoduleParent* aActor) override;
++
+   virtual PPresentationParent* AllocPPresentationParent() override;
+ 
+   virtual bool DeallocPPresentationParent(PPresentationParent* aActor) override;
+diff --git a/dom/ipc/PContent.ipdl b/dom/ipc/PContent.ipdl
+old mode 100644
+new mode 100755
+index 1183b70..b2214ae
+--- a/dom/ipc/PContent.ipdl
++++ b/dom/ipc/PContent.ipdl
+@@ -21,6 +21,7 @@ include protocol PHandlerService;
+ include protocol PDeviceStorageRequest;
+ include protocol PFileDescriptorSet;
+ include protocol PFMRadio;
++include protocol PGmodule;
+ include protocol PHal;
+ include protocol PHeapSnapshotTempFileHelper;
+ include protocol PIcc;
+@@ -423,6 +424,7 @@ prio(normal upto urgent) sync protocol PContent
+     manages PExternalHelperApp;
+     manages PFileDescriptorSet;
+     manages PFMRadio;
++    manages PGmodule;  // for pGmodule
+     manages PHal;
+     manages PHandlerService;
+     manages PHeapSnapshotTempFileHelper;
+@@ -891,6 +893,8 @@ parent:
+ 
+     async PFMRadio();
+ 
++    async PGmodule();
++
+     async PWebrtcGlobal();
+ 
+     async PPresentation();
+diff --git a/dom/moz.build b/dom/moz.build
+old mode 100644
+new mode 100755
+index 82e9df7..fb79225
+--- a/dom/moz.build
++++ b/dom/moz.build
+@@ -183,3 +183,5 @@ TEST_DIRS += [
+ if CONFIG['MOZ_WIDGET_TOOLKIT'] in ('gtk2', 'gtk3', 'cocoa', 'windows', 'android', 'qt'):
+     TEST_DIRS += ['plugins/test']
+ 
++DIRS += ['gmodule']
++
+diff --git a/dom/webidl/Navigator.webidl b/dom/webidl/Navigator.webidl
+old mode 100644
+new mode 100755
+index e0c8fcd..f500857
+--- a/dom/webidl/Navigator.webidl
++++ b/dom/webidl/Navigator.webidl
+@@ -573,3 +573,8 @@ partial interface Navigator {
+ };
+ #endif
+ 
++partial interface Navigator {
++  [Throws]
++  readonly attribute Gmodule mozGmodule;
++};
++
+diff --git a/dom/webidl/moz.build b/dom/webidl/moz.build
+old mode 100644
+new mode 100755
+index 93177ad..5061e1e
+--- a/dom/webidl/moz.build
++++ b/dom/webidl/moz.build
+@@ -993,3 +993,7 @@ if CONFIG['ENABLE_U2F']:
+     WEBIDL_FILES += [
+         'U2F.webidl'
+     ]
++
++WEBIDL_FILES += [
++    'Gmodule.webidl'
++]
+\ No newline at end of file

@@ -1,0 +1,21 @@
+include protocol PContent;
+namespace mozilla {
+namespace dom {
+namespace gmodule {
+
+async protocol PGmodule {
+	//利用PContent来管理PGmodule的生命周期，创建和销毁PGmodule的实例
+	manager PContent;
+parent:
+	//虚构函数
+
+	async __delete__();
+	//parent 接收的消息
+	async SetTestData();
+};
+
+}// namespace gmodule
+
+}// namespace dom
+
+}// namespace mozilla

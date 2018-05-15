@@ -1,0 +1,25 @@
+
+EXPORTS.mozilla.dom.gmodule +=[
+'Gmodule.h',
+'ipc/GmoduleChild.h',
+'ipc/GmoduleParent.h',
+]
+
+SOURCES +=[
+'Gmodule.cpp',
+'ipc/GmoduleChild.cpp',
+'ipc/GmoduleParent.cpp',
+]
+
+IPDL_SOURCES += [
+    'ipc/PGmodule.ipdl',
+]
+
+LOCAL_INCLUDES +=[
+	'../base',
+	'../system/gonk',
+	'/dom/gmodule',
+]
+
+include('/ipc/chromium/chromium-config.mozbuild')
+FINAL_LIBRARY ='xul'
