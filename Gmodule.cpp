@@ -1,6 +1,7 @@
 #include "Gmodule.h"
 
 #include "mozilla/dom/GmoduleBinding.h"
+#include "mozilla/dom/gmodule/PGmoduleChild.h"
 #include "mozilla/dom/ContentChild.h"
 
 #include "nsXULAppAPI.h"
@@ -63,7 +64,12 @@ int32_t Gmodule::SetTestData(){
 
 	 if(GeckoProcessType_Default != XRE_GetProcessType()) {
 	 	LOG("content process");
-	 	ContentChild::GetSingleton()->SendPGmoduleConstructor()->SendSetTestData();
+	 	PGmoduleChild* proxy = ContentChild::GetSingleton()->SendPGmoduleConstructor();
+	 	if (proxy) {
+	 		LOG(" SetTestData");
+	 		proxy->SendSetTestData();
+	 	}
+	 	
 	} else {
 		LOG("main process");
 	}
