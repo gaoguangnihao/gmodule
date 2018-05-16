@@ -5,10 +5,21 @@ EXPORTS.mozilla.dom.gmodule +=[
 'ipc/GmoduleParent.h',
 ]
 
+XPIDL_MODULE = 'dom_gmodule'
+
 SOURCES +=[
 'Gmodule.cpp',
 'ipc/GmoduleChild.cpp',
 'ipc/GmoduleParent.cpp',
+]
+
+EXTRA_COMPONENTS += [
+    'GmoduleManager.js',
+    'GmoduleManager.manifest',
+]
+
+XPIDL_SOURCES += [
+    'nsIGmoduleManager.idl',
 ]
 
 IPDL_SOURCES += [
