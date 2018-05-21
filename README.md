@@ -6,20 +6,21 @@
 
 
 
-flow chat:
+flow chat:  
+
   navigator.mozGmodule
           |
       Gmodule (webidl)
 
-      /      \ (not main process)
-   (main)   GmoduleChild
+      /            \ (not main process)
+   (main)      GmoduleChild
 
-                 | ( ipdl) 
-            GmoduleParent
+                     | ( ipdl) 
+                 GmoduleParent
 
-                  \
+                      |
 
                 GmoduleManager  (xpcom)
 
-                   |
-                 GmoduleService
+                       |
+                    GmoduleService
