@@ -14,11 +14,18 @@ const Cu = Components.utils;
 Cu.import("resource://gre/modules/XPCOMUtils.jsm");
 Cu.import("resource://gre/modules/Services.jsm");
 
+XPCOMUtils.defineLazyModuleGetter(this, "GmoduleService",
+                                  "resource://gre/modules/GmoduleService.jsm");
+
 function GmoduleManager() {};
 
 GmoduleManager.prototype = {
 	init: function() {
 		debug('init enter');
+
+		// test jsm
+		var r = GmoduleService.doAction();
+		debug('GmoduleService doAction return ' + r);
 	},
 
 	classID: Components.ID("{8ce7473f-b77d-4130-8b33-eaef78f14841}"),

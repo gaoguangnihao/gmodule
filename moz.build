@@ -18,6 +18,10 @@ EXTRA_COMPONENTS += [
     'GmoduleManager.manifest',
 ]
 
+EXTRA_JS_MODULES += [
+    'GmoduleService.jsm',
+]
+
 XPIDL_SOURCES += [
     'nsIGmoduleManager.idl',
 ]

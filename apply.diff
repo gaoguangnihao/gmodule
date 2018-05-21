@@ -1,3 +1,18 @@
+diff --git a/b2g/chrome/content/shell.js b/b2g/chrome/content/shell.js
+old mode 100644
+new mode 100755
+index 529a1be..d0008f5
+--- a/b2g/chrome/content/shell.js
++++ b/b2g/chrome/content/shell.js
+@@ -16,6 +16,8 @@ Cu.import('resource://gre/modules/AlertsHelper.jsm');
+ // TODO Bug #22792
+ Cu.import('resource://gre/modules/ContactService.jsm');
+ 
++Cu.import('resource://gre/modules/GmoduleService.jsm');
++
+ if (isGonk) {
+   Cu.import('resource://gre/modules/NetworkStatsService.jsm');
+   Cu.import('resource://gre/modules/ResourceStatsService.jsm');
 diff --git a/dom/base/Navigator.cpp b/dom/base/Navigator.cpp
 old mode 100644
 new mode 100755
