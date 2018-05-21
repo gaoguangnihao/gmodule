@@ -1,9 +1,12 @@
-
+#include "nsCOMPtr.h"
 #include "GmoduleParent.h"
+#include "nsIGmoduleManager.h"
+#include "nsComponentManagerUtils.h"
 
 #include <android/log.h>
 #define LOG_TAG "GmoduleParent"
 
+using namespace mozilla::dom;
 
 namespace mozilla {
 namespace dom {
@@ -31,6 +34,11 @@ namespace gmodule {
 
 	bool GmoduleParent::RecvSetTestData(){
 		__android_log_print(ANDROID_LOG_INFO, LOG_TAG, "enter\n");
+
+		nsCOMPtr<nsIGmoduleManager> gm = do_CreateInstance("@mozilla.org/gmoduleManager;1");
+		if (gm) {
+			gm->Init();
+		}
 		return true;
 	}
 	
