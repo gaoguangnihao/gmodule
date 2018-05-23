@@ -1,6 +1,7 @@
 #include "nsCOMPtr.h"
 #include "GmoduleParent.h"
 #include "nsIGmoduleManager.h"
+#include "nsIGmoduleXpcom.h"
 #include "nsComponentManagerUtils.h"
 
 #include <android/log.h>
@@ -38,6 +39,12 @@ namespace gmodule {
 		nsCOMPtr<nsIGmoduleManager> gm = do_CreateInstance("@mozilla.org/gmoduleManager;1");
 		if (gm) {
 			gm->Init();
+		}
+
+		nsCOMPtr<nsIGmoduleXpcom> gx = do_CreateInstance("@mozilla.org/gmodule/gmodulexpcom;1");
+		if (gx) {
+			int32_t ret = -1;
+			gx->Getdata(&ret);
 		}
 		return true;
 	}

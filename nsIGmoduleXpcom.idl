@@ -1,0 +1,20 @@
+
+#include "nsISupports.idl"
+
+%{C++
+#define NS_GMODULEXPCOM_CID \
+  { 0x121e70b7, 0xcd76, 0x4787, { 0xa9, 0xd7, 0xe9, 0xea, 0xb2, 0x48, 0xfd, 0x18 } }
+#define GMODULE_XPCOM_CONTRACTID \
+  "@mozilla.org/gmodule/gmodulexpcom;1"
+
+template<typename T> struct already_AddRefed;
+%}
+
+/**
+ * XPCOM Service for gmodule test.
+ */
+[scriptable, uuid(121e70b7-cd76-4787-a9d7-e9eab248fd18)]
+interface nsIGmoduleXpcom : nsISupports
+{
+  long getdata();
+};
