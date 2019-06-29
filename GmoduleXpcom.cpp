@@ -3,6 +3,7 @@
 
 #include "GmoduleXpcom.h"
 
+
 #include <android/log.h>
 #define LOG(args...) \
   __android_log_print(ANDROID_LOG_INFO, "GmoduleXpcom", ## args)
@@ -20,12 +21,19 @@ GmoduleXpcom:: ~GmoduleXpcom() {
 }
 
 NS_IMETHODIMP
-GmoduleXpcom::Getdata(int32_t *ret) {
+GmoduleXpcom::GetData(int32_t *ret) {
 	LOG("Getdata");
 	*ret = 2;
 
 	LOG("Initializing BinderTest");
 	BinderTest::instantiate(); 
+	return NS_OK;
+}
+
+NS_IMETHODIMP
+GmoduleXpcom::SetData(const nsAString& data, int32_t *ret) {
+//	LOG("SetData %s", NS_LossyConvertUTF16toASCII(data).get());
+
 	return NS_OK;
 }
 

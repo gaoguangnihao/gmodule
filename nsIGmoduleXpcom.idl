@@ -16,5 +16,6 @@ template<typename T> struct already_AddRefed;
 [scriptable, uuid(121e70b7-cd76-4787-a9d7-e9eab248fd18)]
 interface nsIGmoduleXpcom : nsISupports
 {
-  long getdata();
+  long getData();
+  long setData(in DOMString data);
 };

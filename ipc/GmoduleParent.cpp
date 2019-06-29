@@ -44,7 +44,8 @@ namespace gmodule {
 		nsCOMPtr<nsIGmoduleXpcom> gx = do_CreateInstance("@mozilla.org/gmodule/gmodulexpcom;1");
 		if (gx) {
 			int32_t ret = -1;
-			gx->Getdata(&ret);
+			gx->SetData(data, &ret);
+			gx->GetData(&ret);
 		}
 
 		return true;
