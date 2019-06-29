@@ -35,7 +35,7 @@ public:
 
   /* Impliment the WebIDL interface begin*/
 
-  int32_t SetTestData();
+  int32_t SetTestData(const nsAString& data);
 
   /* Imppliment the WebIDL interface end*/
 

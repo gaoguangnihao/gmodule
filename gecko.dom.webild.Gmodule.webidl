@@ -1,3 +1,3 @@
 interface Gmodule : EventTarget {
-  long setTestData();
+  long setTestData(DOMString data);
 };

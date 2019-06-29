@@ -58,11 +58,11 @@ Gmodule::WrapObject(JSContext* aCx, JS::Handle<JSObject*> aGivenProto)
 
 // webidl中定义的接口的实现
 
-int32_t Gmodule::SetTestData(){
+int32_t Gmodule::SetTestData(const nsAString& data){
 
-	LOG("Gmodule enter SetTestData:isSuccessed\n");
+	LOG("Gmodule enter SetTestData: %s \n", NS_LossyConvertUTF16toASCII(data).get());
 
-	 if(GeckoProcessType_Default != XRE_GetProcessType()) {
+	if(GeckoProcessType_Default != XRE_GetProcessType()) {
 	 	LOG("content process");
 	 	PGmoduleChild* proxy = ContentChild::GetSingleton()->SendPGmoduleConstructor();
 	 	if (proxy) {
