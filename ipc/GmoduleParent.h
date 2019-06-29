@@ -19,7 +19,7 @@ public:
   virtual void ActorDestroy(ActorDestroyReason aWhy) override;
 protected:
   /*receive child function call*/
-	virtual bool RecvSetTestData() override;
+	virtual bool RecvSetTestData(const nsString& data) override;
 
 private:
 	~GmoduleParent();

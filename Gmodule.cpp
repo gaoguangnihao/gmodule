@@ -67,7 +67,7 @@ int32_t Gmodule::SetTestData(const nsAString& data){
 	 	PGmoduleChild* proxy = ContentChild::GetSingleton()->SendPGmoduleConstructor();
 	 	if (proxy) {
 	 		LOG(" SetTestData");
-	 		proxy->SendSetTestData();
+	 		proxy->SendSetTestData(nsString(data));
 	 	}
 	 	
 	} else {

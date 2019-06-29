@@ -33,7 +33,14 @@ IPDL_SOURCES += [
     'ipc/PGmodule.ipdl',
 ]
 
+OS_LIBS += [
+    'gtool'
+]
+
+NO_VISIBILITY_FLAGS = True
+
 LOCAL_INCLUDES +=[
+	'../../../system/gtool/include',
 	'../base',
 	'../system/gonk',
 	'/dom/gmodule',

@@ -33,8 +33,8 @@ namespace gmodule {
 
 	}
 
-	bool GmoduleParent::RecvSetTestData(){
-		__android_log_print(ANDROID_LOG_INFO, LOG_TAG, "enter\n");
+	bool GmoduleParent::RecvSetTestData(const nsString& data){
+		__android_log_print(ANDROID_LOG_INFO, LOG_TAG, "data %s\n", NS_ConvertUTF16toUTF8(data).get());
 
 		nsCOMPtr<nsIGmoduleManager> gm = do_CreateInstance("@mozilla.org/gmoduleManager;1");
 		if (gm) {
@@ -46,6 +46,7 @@ namespace gmodule {
 			int32_t ret = -1;
 			gx->Getdata(&ret);
 		}
+
 		return true;
 	}
 	

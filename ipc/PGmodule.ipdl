@@ -11,7 +11,7 @@ parent:
 
 	async __delete__();
 	//parent 接收的消息
-	async SetTestData();
+	async SetTestData(nsString data);
 };
 
 }// namespace gmodule

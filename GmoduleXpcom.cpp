@@ -1,4 +1,5 @@
 
+#include "BinderTest.h"
 
 #include "GmoduleXpcom.h"
 
@@ -22,6 +23,9 @@ NS_IMETHODIMP
 GmoduleXpcom::Getdata(int32_t *ret) {
 	LOG("Getdata");
 	*ret = 2;
+
+	LOG("Initializing BinderTest");
+	BinderTest::instantiate(); 
 	return NS_OK;
 }
 
