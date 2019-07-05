@@ -26,7 +26,7 @@ GmoduleXpcom::GetData(int32_t *ret) {
 	*ret = 2;
 
 	LOG("Initializing BinderTest");
-	BinderTest::instantiate(); 
+	BinderTest::instantiate()->grallocRender(); 
 	return NS_OK;
 }
 
