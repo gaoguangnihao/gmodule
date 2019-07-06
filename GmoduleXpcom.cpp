@@ -1,8 +1,6 @@
 
 #include "BinderTest.h"
-
 #include "GmoduleXpcom.h"
-
 
 #include <android/log.h>
 #define LOG(args...) \
@@ -16,6 +14,11 @@ namespace gmodule {
 
 NS_IMPL_ISUPPORTS(GmoduleXpcom, nsIGmoduleXpcom)
 
+GmoduleXpcom:: GmoduleXpcom()
+:pGanimation(new Ganimation()) {
+
+}
+
 GmoduleXpcom:: ~GmoduleXpcom() {
 
 }
@@ -27,6 +30,8 @@ GmoduleXpcom::GetData(int32_t *ret) {
 
 	LOG("Initializing BinderTest");
 	BinderTest::instantiate()->grallocRender(); 
+
+	pGanimation->render();
 	return NS_OK;
 }
 
@@ -37,8 +42,6 @@ GmoduleXpcom::SetData(const nsAString& data, int32_t *ret) {
 	return NS_OK;
 }
 
-
-
 /* static */ already_AddRefed<GmoduleXpcom>
 GmoduleXpcom::GetInstance() {
 	if (!sSingleton) {
@@ -47,8 +50,6 @@ GmoduleXpcom::GetInstance() {
 	RefPtr<GmoduleXpcom> service = sSingleton.get();
 	return service.forget();
 }
-
-
 
 } // namespace gmodule
 } // namespace dom

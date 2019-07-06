@@ -1,5 +1,6 @@
 
 EXPORTS.mozilla.dom.gmodule +=[
+'Ganimation.h',
 'Gmodule.h',
 'GmoduleXpcom.h',
 'ipc/GmoduleChild.h',
@@ -9,6 +10,7 @@ EXPORTS.mozilla.dom.gmodule +=[
 XPIDL_MODULE = 'dom_gmodule'
 
 SOURCES +=[
+'Ganimation.cpp',
 'Gmodule.cpp',
 'GmoduleXpcom.cpp',
 'ipc/GmoduleChild.cpp',
@@ -41,6 +43,7 @@ NO_VISIBILITY_FLAGS = True
 
 LOCAL_INCLUDES +=[
 	'../../../system/gtool/include',
+    '../../widget/gonk/libdisplay',
 	'../base',
 	'../system/gonk',
 	'/dom/gmodule',

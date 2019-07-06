@@ -9,6 +9,8 @@
 #include "mozilla/Services.h"
 #include "nsIGmoduleXpcom.h"
 
+#include "Ganimation.h"
+
 namespace mozilla {
 namespace dom {
 namespace gmodule {
@@ -19,7 +21,7 @@ public:
 	NS_DECL_ISUPPORTS
 	NS_DECL_NSIGMODULEXPCOM
 
-	GmoduleXpcom(){};
+	GmoduleXpcom();
 
 	static already_AddRefed<GmoduleXpcom> GetInstance();
 
@@ -28,6 +30,7 @@ private:
 
 	static StaticRefPtr<GmoduleXpcom> sSingleton;
 	
+	Ganimation* pGanimation;
 };
 
 } // namespace gmodule
