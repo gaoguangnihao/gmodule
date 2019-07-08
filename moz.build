@@ -3,6 +3,7 @@ EXPORTS.mozilla.dom.gmodule +=[
 'Ganimation.h',
 'Gmodule.h',
 'GmoduleXpcom.h',
+'Grender.h',
 'ipc/GmoduleChild.h',
 'ipc/GmoduleParent.h',
 ]
@@ -13,6 +14,7 @@ SOURCES +=[
 'Ganimation.cpp',
 'Gmodule.cpp',
 'GmoduleXpcom.cpp',
+'Grender.cpp',
 'ipc/GmoduleChild.cpp',
 'ipc/GmoduleParent.cpp',
 ]
@@ -42,6 +44,7 @@ OS_LIBS += [
 NO_VISIBILITY_FLAGS = True
 
 LOCAL_INCLUDES +=[
+    '../../../external/skia/include',
 	'../../../system/gtool/include',
     '../../widget/gonk/libdisplay',
 	'../base',

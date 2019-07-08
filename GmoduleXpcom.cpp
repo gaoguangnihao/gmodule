@@ -15,12 +15,12 @@ namespace gmodule {
 NS_IMPL_ISUPPORTS(GmoduleXpcom, nsIGmoduleXpcom)
 
 GmoduleXpcom:: GmoduleXpcom()
-:pGanimation(new Ganimation()) {
+:pGanimation(new Ganimation())
+ {
 
 }
 
 GmoduleXpcom:: ~GmoduleXpcom() {
-
 }
 
 NS_IMETHODIMP
@@ -30,15 +30,13 @@ GmoduleXpcom::GetData(int32_t *ret) {
 
 	LOG("Initializing BinderTest");
 	BinderTest::instantiate()->grallocRender(); 
-
-	pGanimation->render();
 	return NS_OK;
 }
 
 NS_IMETHODIMP
 GmoduleXpcom::SetData(const nsAString& data, int32_t *ret) {
 //	LOG("SetData %s", NS_LossyConvertUTF16toASCII(data).get());
-
+	pGanimation->render(data);
 	return NS_OK;
 }
 
