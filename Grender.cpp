@@ -16,7 +16,10 @@ Grender::getRenderContent(int type){
     bitmap.allocPixels();
 //    bitmap.eraseColor(0x0000ff00);
     char buf[320*256*4] = {0xdd};
-    bitmap.setPixels((void *) buf);
+    memset(buf+320*256*3, 0xff, 320*256);
+ //   bitmap.setPixels((void *) buf);
 
-    return bitmap.getPixels();
+  //  return bitmap.getPixels();
+    void *pret = (void *)buf;
+    return pret;
 }

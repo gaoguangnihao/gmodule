@@ -3,9 +3,10 @@
 #ifndef GANIMATION_H
 #define GANIMATION_H 
 
+#include "Irender.h"
 #include "Grender.h"
 
-class Ganimation
+class Ganimation : public Irender
 {
 public:
 	Ganimation():pGrender(new Grender()),pBuffer(NULL){};
@@ -18,7 +19,7 @@ private:
 	int GetTypeFromData(const nsAString& data);
 
 	void dump(void *buf, long length);
-
+	
 	Grender* pGrender;
 
 	void * pBuffer;   // buffer for render content.

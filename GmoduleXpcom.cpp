@@ -1,8 +1,11 @@
 
 #include "BinderTest.h"
 #include "GmoduleXpcom.h"
+#include "Irender.h"
+#include "Ghwcomposer.h"
 
 #include <android/log.h>
+#undef LOG
 #define LOG(args...) \
   __android_log_print(ANDROID_LOG_INFO, "GmoduleXpcom", ## args)
 
@@ -15,8 +18,7 @@ namespace gmodule {
 NS_IMPL_ISUPPORTS(GmoduleXpcom, nsIGmoduleXpcom)
 
 GmoduleXpcom:: GmoduleXpcom()
-:pGanimation(new Ganimation())
- {
+:pRender(nullptr){
 
 }
 
@@ -35,8 +37,11 @@ GmoduleXpcom::GetData(int32_t *ret) {
 
 NS_IMETHODIMP
 GmoduleXpcom::SetData(const nsAString& data, int32_t *ret) {
-//	LOG("SetData %s", NS_LossyConvertUTF16toASCII(data).get());
-	pGanimation->render(data);
+	// LOG("SetData %s", NS_LossyConvertUTF16toASCII(data).get());
+	// pGanimation->render(data);
+
+	pRender = new Ghwcomposer();
+	pRender->render(data);
 	return NS_OK;
 }
 

@@ -9,6 +9,7 @@
 #include "mozilla/Services.h"
 #include "nsIGmoduleXpcom.h"
 
+#include "Irender.h"
 #include "Ganimation.h"
 
 namespace mozilla {
@@ -30,7 +31,7 @@ private:
 
 	static StaticRefPtr<GmoduleXpcom> sSingleton;
 	
-	Ganimation* pGanimation;
+	Irender* pRender;
 };
 
 } // namespace gmodule

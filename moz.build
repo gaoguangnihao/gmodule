@@ -1,17 +1,20 @@
 
 EXPORTS.mozilla.dom.gmodule +=[
 'Ganimation.h',
+'Ghwcomposer.h',
 'Gmodule.h',
 'GmoduleXpcom.h',
 'Grender.h',
 'ipc/GmoduleChild.h',
 'ipc/GmoduleParent.h',
+'Irender.h',
 ]
 
 XPIDL_MODULE = 'dom_gmodule'
 
 SOURCES +=[
 'Ganimation.cpp',
+'Ghwcomposer.cpp',
 'Gmodule.cpp',
 'GmoduleXpcom.cpp',
 'Grender.cpp',
@@ -45,6 +48,8 @@ NO_VISIBILITY_FLAGS = True
 
 LOCAL_INCLUDES +=[
     '../../../external/skia/include',
+    '../../../hardware/libhardware/include',
+    '../../../hardware/libhardware_legacy/include',
 	'../../../system/gtool/include',
     '../../widget/gonk/libdisplay',
 	'../base',
