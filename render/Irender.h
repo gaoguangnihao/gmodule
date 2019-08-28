@@ -11,7 +11,7 @@ public:
 	Irender(){};
 	~Irender(){};
 	
-	virtual void render(const nsAString& data) = 0;
+	virtual void render() = 0;
 };
 
 #endif

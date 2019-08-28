@@ -12,7 +12,7 @@ using namespace mozilla;
 #define LOGE(args...) __android_log_print(ANDROID_LOG_ERROR, "ganimation", ## args)
 
 void
-Ganimation::render(const nsAString& data) {
+Ganimation::render() {
 	LOG("render");
 	GonkDisplay *display = GetGonkDisplay();
 
@@ -34,21 +34,7 @@ Ganimation::render(const nsAString& data) {
     }
 
     long length = buffer->height * buffer->stride * GetFormatBPP(dispData.mSurfaceformat);
-    char temp[length] = {'\0'};
-    pBuffer = temp;
-
-    switch(GetTypeFromData(data)) {
-        case 0:
-            memset(pBuffer, 0x77, length);
-            break;
-        case 1:
-            pBuffer = pGrender->getRenderContent(1);
-            break;
-        case 2:
-            break;
-        default:
-            break;
-    }
+    pBuffer = pGrender->getRenderContent(1);
 
   //  dump(pBuffer, length);   // dump pBuffer
 
@@ -87,22 +73,6 @@ Ganimation::GetFormatBPP(int aFormat)
     }
 
     return bpp;
-}
-
-int
-Ganimation::GetTypeFromData(const nsAString& data) {
-    int type = -1;
-    if (data.EqualsASCII("0")){
-        type = 0;
-    } else if(data.EqualsASCII("1")){
-        type = 1;
-    } else if(data.EqualsASCII("2")) {
-        type = 2;
-    } else {
-        type =3;
-    }
-
-    return type;
 }
 
 void 

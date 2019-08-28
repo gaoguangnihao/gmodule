@@ -30,7 +30,7 @@ public:
 	Ghwcomposer();
 	~Ghwcomposer();
 	
-	void render(const nsAString& data);
+	void render();
 private:
 	hwc_display_contents_1_t* mList;
 

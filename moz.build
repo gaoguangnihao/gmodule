@@ -1,25 +1,27 @@
 
 EXPORTS.mozilla.dom.gmodule +=[
-'Ganimation.h',
-'Ghwcomposer.h',
 'Gmodule.h',
 'GmoduleXpcom.h',
-'Grender.h',
 'ipc/GmoduleChild.h',
 'ipc/GmoduleParent.h',
-'Irender.h',
+'render/Ganimation.h',
+'render/Ghwcomposer.h',
+'render/Grender.h',
+'render/Grotation.h',
+'render/Irender.h',
 ]
 
 XPIDL_MODULE = 'dom_gmodule'
 
 SOURCES +=[
-'Ganimation.cpp',
-'Ghwcomposer.cpp',
 'Gmodule.cpp',
 'GmoduleXpcom.cpp',
-'Grender.cpp',
 'ipc/GmoduleChild.cpp',
 'ipc/GmoduleParent.cpp',
+'render/Ganimation.cpp',
+'render/Ghwcomposer.cpp',
+'render/Grender.cpp',
+'render/Grotation.cpp',
 ]
 
 EXTRA_COMPONENTS += [
@@ -51,10 +53,12 @@ LOCAL_INCLUDES +=[
     '../../../hardware/libhardware/include',
     '../../../hardware/libhardware_legacy/include',
 	'../../../system/gtool/include',
+    '../../widget/gonk/',
     '../../widget/gonk/libdisplay',
 	'../base',
 	'../system/gonk',
 	'/dom/gmodule',
+    '/dom/gmodule/render',
 ]
 
 include('/ipc/chromium/chromium-config.mozbuild')

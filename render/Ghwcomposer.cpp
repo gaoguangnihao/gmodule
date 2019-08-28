@@ -48,6 +48,6 @@ Ghwcomposer::~Ghwcomposer() {
 	free(mDisplayNativeData);
 }
 
-void Ghwcomposer::render(const nsAString& data) {
+void Ghwcomposer::render() {
 	
 }

@@ -30,6 +30,8 @@ private:
 	virtual ~GmoduleXpcom();
 
 	static StaticRefPtr<GmoduleXpcom> sSingleton;
+
+	int GetEventTypeFromData(const nsAString& data);
 	
 	Irender* pRender;
 };

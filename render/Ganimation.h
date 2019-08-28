@@ -12,11 +12,10 @@ public:
 	Ganimation():pGrender(new Grender()),pBuffer(NULL){};
 	~Ganimation(){};
 
-	void render(const nsAString& data);
+	void render();
 private:
 	
 	uint16_t GetFormatBPP(int format);
-	int GetTypeFromData(const nsAString& data);
 
 	void dump(void *buf, long length);
 	

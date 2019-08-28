@@ -3,6 +3,8 @@
 #include "GmoduleXpcom.h"
 #include "Irender.h"
 #include "Ghwcomposer.h"
+#include "Ganimation.h"
+#include "Grotation.h"
 
 #include <android/log.h>
 #undef LOG
@@ -29,20 +31,46 @@ NS_IMETHODIMP
 GmoduleXpcom::GetData(int32_t *ret) {
 	LOG("Getdata");
 	*ret = 2;
-
-	LOG("Initializing BinderTest");
-	BinderTest::instantiate()->grallocRender(); 
 	return NS_OK;
 }
 
 NS_IMETHODIMP
 GmoduleXpcom::SetData(const nsAString& data, int32_t *ret) {
-	// LOG("SetData %s", NS_LossyConvertUTF16toASCII(data).get());
-	// pGanimation->render(data);
-
-	pRender = new Ghwcomposer();
-	pRender->render(data);
+	switch(GetEventTypeFromData(data)) {
+        case 0:
+            pRender = new Ganimation();
+            break;
+        case 1:
+	        pRender = new Ghwcomposer();
+            break;
+        case 2:
+        	LOG("Initializing BinderTest");
+        	BinderTest::instantiate()->grallocRender(); 
+            break;
+        case 3:
+        	pRender = new Grotation();
+        	break;
+        default:
+            break;
+    }
+    if (pRender)
+    	pRender->render();
 	return NS_OK;
+}
+
+int 
+GmoduleXpcom::GetEventTypeFromData(const nsAString& data) {
+    int type = -1;
+    if (data.EqualsASCII("0")){
+        type = 0;
+    } else if(data.EqualsASCII("1")){
+        type = 1;
+    } else if(data.EqualsASCII("2")) {
+        type = 2;
+    } else {
+        type =3;
+    }
+    return type;
 }
 
 /* static */ already_AddRefed<GmoduleXpcom>
