@@ -4,6 +4,7 @@ EXPORTS.mozilla.dom.gmodule +=[
 'GmoduleXpcom.h',
 'ipc/GmoduleChild.h',
 'ipc/GmoduleParent.h',
+'render/FramebufferSurface.h',
 'render/Ganimation.h',
 'render/Ghwcomposer.h',
 'render/Grender.h',
@@ -18,6 +19,7 @@ SOURCES +=[
 'GmoduleXpcom.cpp',
 'ipc/GmoduleChild.cpp',
 'ipc/GmoduleParent.cpp',
+'render/FramebufferSurface.cpp',
 'render/Ganimation.cpp',
 'render/Ghwcomposer.cpp',
 'render/Grender.cpp',
@@ -50,6 +52,7 @@ NO_VISIBILITY_FLAGS = True
 
 LOCAL_INCLUDES +=[
     '../../../external/skia/include',
+    '../../../frameworks/native/include',
     '../../../hardware/libhardware/include',
     '../../../hardware/libhardware_legacy/include',
 	'../../../system/gtool/include',

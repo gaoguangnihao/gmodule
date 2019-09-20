@@ -1,7 +1,14 @@
 
+
+#ifndef GHWCOMPOSER_H
+#define GHWCOMPOSER_H 
 #include "hardware/hwcomposer.h"
+#include <gui/Surface.h>
+#include <gui/GraphicBufferAlloc.h>
+#include "DisplaySurface.h"
 
 #include "Irender.h"
+#include "Grender.h"
 
 #include <android/log.h>
 #undef LOG
@@ -32,11 +39,21 @@ public:
 	
 	void render();
 private:
-	hwc_display_contents_1_t* mList;
+  Grender* pGrender;
 
-	hw_module_t *mModule;
+	hwc_display_contents_1_t* mList;
 
 	hwc_composer_device_1_t*  mHwc;
 
-    DisplayNativeData* mDisplayNativeData;
+  DisplayNativeData* mDisplayNativeData;
+
+  // producer
+  android::sp<ANativeWindow> mNativeWindow;
+  // consumer
+  android::sp<android::DisplaySurface> mDisplaySurface;
+
+  bool post(buffer_handle_t buf, int fence);
+
 };
+
+#endif //GHWCOMPOSER_H
