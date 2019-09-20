@@ -10,7 +10,6 @@
 #include "nsIGmoduleXpcom.h"
 
 #include "Irender.h"
-#include "Ganimation.h"
 
 namespace mozilla {
 namespace dom {

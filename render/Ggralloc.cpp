@@ -1,7 +1,7 @@
 #include "nsAString.h"
 
 #include "hardware/gralloc.h"
-#include "Ganimation.h"
+#include "Ggralloc.h"
 #include "GonkDisplay.h"
 
 using namespace mozilla;
@@ -12,7 +12,7 @@ using namespace mozilla;
 #define LOGE(args...) __android_log_print(ANDROID_LOG_ERROR, "ganimation", ## args)
 
 void
-Ganimation::render() {
+Ggralloc::render() {
 	LOG("render");
 	GonkDisplay *display = GetGonkDisplay();
 
@@ -51,7 +51,7 @@ Ganimation::render() {
 }	
 
 uint16_t
-Ganimation::GetFormatBPP(int aFormat)
+Ggralloc::GetFormatBPP(int aFormat)
 {
     uint16_t bpp = 0;
 
@@ -76,7 +76,7 @@ Ganimation::GetFormatBPP(int aFormat)
 }
 
 void 
-Ganimation::dump(void * buf, long length) {
+Ggralloc::dump(void * buf, long length) {
     int index = 0;
     int LINE_NUB = 240;
     printf("=====DUMP Buffer, size %ld: \n", length);

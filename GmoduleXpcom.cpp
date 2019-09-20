@@ -3,7 +3,7 @@
 #include "GmoduleXpcom.h"
 #include "Irender.h"
 #include "Ghwcomposer.h"
-#include "Ganimation.h"
+#include "Ggralloc.h"
 #include "Grotation.h"
 
 #include <android/log.h>
@@ -38,7 +38,7 @@ NS_IMETHODIMP
 GmoduleXpcom::SetData(const nsAString& data, int32_t *ret) {
 	switch(GetEventTypeFromData(data)) {
         case 0:
-            pRender = new Ganimation();
+            pRender = new Ggralloc();
             break;
         case 1:
 	        pRender = new Ghwcomposer();

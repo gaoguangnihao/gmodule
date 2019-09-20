@@ -6,11 +6,11 @@
 #include "Irender.h"
 #include "Grender.h"
 
-class Ganimation : public Irender
+class Ggralloc : public Irender
 {
 public:
-	Ganimation():pGrender(new Grender()),pBuffer(NULL){};
-	~Ganimation(){};
+	Ggralloc():pGrender(new Grender()),pBuffer(NULL){};
+	~Ggralloc(){};
 
 	void render();
 private:
