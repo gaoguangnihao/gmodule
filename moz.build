@@ -9,6 +9,7 @@ EXPORTS.mozilla.dom.gmodule +=[
 'render/Ghwcomposer.h',
 'render/Grender.h',
 'render/Grotation.h',
+'render/Gutils.h',
 'render/Irender.h',
 ]
 

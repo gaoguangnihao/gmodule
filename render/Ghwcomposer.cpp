@@ -10,6 +10,11 @@
 #include "FramebufferSurface.h"
 #include "Ghwcomposer.h"
 
+#include "Gutils.h"
+
+#undef GTAG
+#define GTAG "Ghwcomposer"
+
 using namespace android;
 
 Ghwcomposer::Ghwcomposer()
@@ -24,11 +29,11 @@ Ghwcomposer::Ghwcomposer()
     const hw_module_t *module = nullptr;
     int err = hw_get_module(HWC_HARDWARE_MODULE_ID, &module);
     if(err) {
-        LOG("error: hwcomposer get failed!!");
+        GLOG("error: hwcomposer get failed!!");
     };
     err = hwc_open_1(module, &mHwc);
     if(err) {
-        LOG("error: open hwc failed!!");
+        GLOG("error: open hwc failed!!");
     }
 
     int32_t values[4];
@@ -46,7 +51,7 @@ Ghwcomposer::Ghwcomposer()
     mDisplayNativeData->mHeight = values[1];
     mDisplayNativeData->mXdpi = values[2]/1000.0f;
     mDisplayNativeData->mSurfaceFormate = values[3];
-    LOG("Get display attributes width:%d, height:%d, xdpi:%f, surfaceFormate:%d",
+    GLOG("Get display attributes width:%d, height:%d, xdpi:%f, surfaceFormate:%d",
         mDisplayNativeData->mWidth,
         mDisplayNativeData->mHeight,
         mDisplayNativeData->mXdpi,
@@ -81,12 +86,13 @@ void Ghwcomposer::render() {
 
     const hw_module_t *module = nullptr;
     if (hw_get_module(GRALLOC_HARDWARE_MODULE_ID, &module)) {
-        LOG("Could not get gralloc module");
+        GLOG("Could not get gralloc module");
         return;
     }
 
     long length = buf->height * buf->stride * 2;//GetFormatBPP(dispData.mSurfaceformat);
-    void *pBuffer = pGrender->getRenderContent(1);
+    void *pBuffer = pGrender->getRenderContent(2);
+    dumptofile("/data/data/1.txt", pBuffer, length);
 
     const gralloc_module_t *grmodule = reinterpret_cast<gralloc_module_t const*>(module);
     void *mappedAddress = nullptr;
@@ -101,7 +107,6 @@ void Ghwcomposer::render() {
     mNativeWindow->queueBuffer(mNativeWindow.get(), buf, -1);
 
     // post
-    LOG("post");
     post(mDisplaySurface->lastHandle, mDisplaySurface->GetPrevDispAcquireFd());
 }
 
