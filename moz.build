@@ -7,6 +7,7 @@ EXPORTS.mozilla.dom.gmodule +=[
 'render/FramebufferSurface.h',
 'render/Ggralloc.h',
 'render/Ghwcomposer.h',
+'render/GOpengles.h',
 'render/Grender.h',
 'render/Grotation.h',
 'render/Gutils.h',
@@ -23,8 +24,10 @@ SOURCES +=[
 'render/FramebufferSurface.cpp',
 'render/Ggralloc.cpp',
 'render/Ghwcomposer.cpp',
+'render/GOpengles.cpp',
 'render/Grender.cpp',
 'render/Grotation.cpp',
+'render/Gutils.cpp',
 ]
 
 EXTRA_COMPONENTS += [
@@ -63,6 +66,8 @@ LOCAL_INCLUDES +=[
 	'../system/gonk',
 	'/dom/gmodule',
     '/dom/gmodule/render',
+    '/gfx/2d',
+    '/widget',
 ]
 
 include('/ipc/chromium/chromium-config.mozbuild')

@@ -4,6 +4,8 @@
 
 #include <stdio.h>
 #include <android/log.h>
+#include "nsString.h"
+
 #ifndef GTAG
 #define GTAG "ggg"
 #endif // GTAG
@@ -12,21 +14,8 @@
 #define GLOG(args...) \
   __android_log_print(ANDROID_LOG_INFO, GTAG, ## args)
 
+void dumptofile(const char * fname,const void* buffer, size_t bytes);
 
-static void
-dumptofile(const char * fname,const void* buffer, size_t bytes) {
-    static FILE *fp=NULL;
-    if(fp==NULL || access( fname, F_OK )==-1){
-    	fp = fopen(fname, "ab+" );
-        if(fp==NULL){
-            GLOG("can't open file!");
-            fp=NULL;
-            return;
-        }
-    }
-    if(fp!=NULL){
-        fwrite(buffer , 1 , bytes , fp );
-    }
-}
+void convertEventType(const nsAString& data, int& eventType);
 
 #endif

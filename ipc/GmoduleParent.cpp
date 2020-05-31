@@ -4,7 +4,10 @@
 #include "nsIGmoduleXpcom.h"
 #include "nsComponentManagerUtils.h"
 
+#include "GOpengles.h"
+
 #include <android/log.h>
+#undef LOG_TAG
 #define LOG_TAG "GmoduleParent"
 
 using namespace mozilla::dom;
@@ -45,8 +48,10 @@ namespace gmodule {
 		if (gx) {
 			int32_t ret = -1;
 			gx->SetData(data, &ret);
-			gx->GetData(&ret);
+			//gx->GetData(&ret);
 		}
+
+		GOpengles::SetDrawType(data);
 
 		return true;
 	}

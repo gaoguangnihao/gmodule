@@ -33,6 +33,8 @@ private:
 	int GetEventTypeFromData(const nsAString& data);
 	
 	Irender* pRender;
+
+	int mDataCache;
 };
 
 } // namespace gmodule
