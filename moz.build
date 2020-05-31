@@ -1,47 +1,47 @@
 
 EXPORTS.mozilla.dom.gmodule +=[
-'Gmodule.h',
-'GmoduleXpcom.h',
-'ipc/GmoduleChild.h',
-'ipc/GmoduleParent.h',
-'render/FramebufferSurface.h',
-'render/Ggralloc.h',
-'render/Ghwcomposer.h',
-'render/GOpengles.h',
-'render/Grender.h',
-'render/Grotation.h',
-'render/Gutils.h',
-'render/Irender.h',
+    'Gmodule.h',
+    'ipc/GmoduleChild.h',
+    'ipc/GmoduleParent.h',
+    'render/FramebufferSurface.h',
+    'render/Ggralloc.h',
+    'render/Ghwcomposer.h',
+    'render/GOpengles.h',
+    'render/Grender.h',
+    'render/Grotation.h',
+    'render/Gutils.h',
+    'render/Irender.h',
+    'xpcom/GmoduleXpcom.h',
 ]
 
 XPIDL_MODULE = 'dom_gmodule'
 
 SOURCES +=[
-'Gmodule.cpp',
-'GmoduleXpcom.cpp',
-'ipc/GmoduleChild.cpp',
-'ipc/GmoduleParent.cpp',
-'render/FramebufferSurface.cpp',
-'render/Ggralloc.cpp',
-'render/Ghwcomposer.cpp',
-'render/GOpengles.cpp',
-'render/Grender.cpp',
-'render/Grotation.cpp',
-'render/Gutils.cpp',
+    'Gmodule.cpp',
+    'ipc/GmoduleChild.cpp',
+    'ipc/GmoduleParent.cpp',
+    'render/FramebufferSurface.cpp',
+    'render/Ggralloc.cpp',
+    'render/Ghwcomposer.cpp',
+    'render/GOpengles.cpp',
+    'render/Grender.cpp',
+    'render/Grotation.cpp',
+    'render/Gutils.cpp',
+    'xpcom/GmoduleXpcom.cpp',
 ]
 
 EXTRA_COMPONENTS += [
-    'GmoduleManager.js',
-    'GmoduleManager.manifest',
+    'xpcom/GmoduleManager.js',
+    'xpcom/GmoduleManager.manifest',
 ]
 
 EXTRA_JS_MODULES += [
-    'GmoduleService.jsm',
+    'service/GmoduleService.jsm',
 ]
 
 XPIDL_SOURCES += [
-    'nsIGmoduleManager.idl',
-    'nsIGmoduleXpcom.idl',
+    'xpcom/nsIGmoduleManager.idl',
+    'xpcom/nsIGmoduleXpcom.idl',
 ]
 
 IPDL_SOURCES += [

@@ -1,13 +1,14 @@
-#include "GmoduleChild.h"
+/**
+* This module is for study perpose which Edit from guang.gao@kaiostech.com
+* Gmodule interface called from gaia
+*/
 
-#include <android/log.h>
-#define LOG_TAG "GmoduleChild"
+#include "GmoduleChild.h"
 
 namespace mozilla {
 namespace dom {
 namespace gmodule {
 	GmoduleChild::GmoduleChild(){
-		__android_log_print(ANDROID_LOG_INFO, LOG_TAG, "constructor\n");
 		MOZ_COUNT_CTOR(GmoduleChild);
 	}
 

@@ -1,19 +1,20 @@
-# gmodule
+### gmodule
 
+```
 1. Apply apply.diff to gecko
 2. Copy gecko.dom.webild.Gmodule.webidl to gecko/dom/webidl/
 3. rm out and obj-gecko directory, then build.
+```
 
 
-
-flow chat:  
-
+####flow chat:  
+```
   navigator.mozGmodule
           |
       Gmodule (webidl)
 
-      /            \ (not main process)
-   (main)      GmoduleChild
+      /            \ 
+              GmoduleChild
 
                      | ( ipdl) 
                  GmoduleParent
@@ -24,3 +25,4 @@ flow chat:
 
                        |
                     GmoduleService
+```

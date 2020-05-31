@@ -1,3 +1,7 @@
+/**
+* This module is for study perpose which Edit from guang.gao@kaiostech.com
+* Gmodule interface called from gaia
+*/
 
 #ifndef mozilla_dom_gmodule_Parent_h
 #define mozilla_dom_gmodule_Parent_h
@@ -10,7 +14,6 @@ namespace gmodule {
 
 class GmoduleParent :public PGmoduleParent
                     ,public nsISupports
-
 {
 public:
   NS_DECL_ISUPPORTS

@@ -1,77 +1,49 @@
-#include "Gmodule.h"
+/**
+* This module is for study perpose which Edit from guang.gao@kaiostech.com
+* Gmodule interface called from gaia
+*/
 
+#include "Gmodule.h"
 #include "mozilla/dom/GmoduleBinding.h"
 #include "mozilla/dom/gmodule/PGmoduleChild.h"
 #include "mozilla/dom/ContentChild.h"
-
 #include "nsXULAppAPI.h"
 
+#include <android/log.h>
+#define LOG(args...) \
+  __android_log_print(ANDROID_LOG_INFO, "gmodule", ## args)
+
 using namespace mozilla;
-
 using namespace mozilla::dom;
-
 using namespace mozilla::dom::gmodule;
 
-// cycle collector与isupports的宏定义
-
+// Define cycle collector and isupports
 NS_INTERFACE_MAP_BEGIN_CYCLE_COLLECTION(Gmodule)
-
 NS_INTERFACE_MAP_ENTRY(nsISupports)
-
 NS_WRAPPERCACHE_INTERFACE_MAP_ENTRY
-
 NS_INTERFACE_MAP_END
-
 NS_IMPL_CYCLE_COLLECTING_ADDREF(Gmodule)
-
 NS_IMPL_CYCLE_COLLECTING_RELEASE(Gmodule)
-
 NS_IMPL_CYCLE_COLLECTION_WRAPPERCACHE(Gmodule, mWindow)
 
-// 构造函数与西沟函数的实现
-
-Gmodule::Gmodule(nsPIDOMWindowInner* aWindow)
-
-: mWindow(aWindow)
-
-{
-	LOG("Gmodule enter MozGmodule\n");
-}
-
-Gmodule::~Gmodule()
-
-{
-
-	LOG("Gmodule enter ~Gmodule\n");
-
-}
-
-// WrapObject的实现
+// WrapObject implement
 
 JSObject*
-
 Gmodule::WrapObject(JSContext* aCx, JS::Handle<JSObject*> aGivenProto)
 {
   return GmoduleBinding::Wrap(aCx, this, aGivenProto);
 }
 
-
-// webidl中定义的接口的实现
-
+// webidl implement
 int32_t Gmodule::SetTestData(const nsAString& data){
-
-	LOG("Gmodule enter SetTestData: %s \n", NS_LossyConvertUTF16toASCII(data).get());
-
+	LOG("Set Data: %s \n", NS_LossyConvertUTF16toASCII(data).get());
 	if(GeckoProcessType_Default != XRE_GetProcessType()) {
-	 	LOG("content process");
 	 	PGmoduleChild* proxy = ContentChild::GetSingleton()->SendPGmoduleConstructor();
 	 	if (proxy) {
-	 		LOG(" SetTestData");
 	 		proxy->SendSetTestData(nsString(data));
 	 	}
-	 	
 	} else {
-		LOG("main process");
+		LOG("Main process in maintenane");
 	}
 	return 0;
 }

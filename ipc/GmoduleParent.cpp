@@ -1,3 +1,8 @@
+/**
+* This module is for study perpose which Edit from guang.gao@kaiostech.com
+* Gmodule interface called from gaia
+*/
+
 #include "nsCOMPtr.h"
 #include "GmoduleParent.h"
 #include "nsIGmoduleManager.h"
@@ -22,37 +27,32 @@ namespace gmodule {
 	NS_IMPL_RELEASE(GmoduleParent)
 
 	GmoduleParent::GmoduleParent(){
-	  //LOG("enter\n");
 	  MOZ_COUNT_CTOR(GmoduleParent);
-
 	}
 
 	GmoduleParent::~GmoduleParent(){
-	  //LOG("enter\n");
 	  MOZ_COUNT_DTOR(GmoduleParent);
 	}
 
 	void GmoduleParent::ActorDestroy(ActorDestroyReason aWhy){
-
 	}
 
 	bool GmoduleParent::RecvSetTestData(const nsString& data){
 		__android_log_print(ANDROID_LOG_INFO, LOG_TAG, "data %s\n", NS_ConvertUTF16toUTF8(data).get());
 
-		nsCOMPtr<nsIGmoduleManager> gm = do_CreateInstance("@mozilla.org/gmoduleManager;1");
-		if (gm) {
-			gm->Init();
+		nsCOMPtr<nsIGmoduleManager> gmoduleManager = do_CreateInstance("@mozilla.org/gmoduleManager;1");
+		if (gmoduleManager) {
+			gmoduleManager->Init();
 		}
 
-		nsCOMPtr<nsIGmoduleXpcom> gx = do_CreateInstance("@mozilla.org/gmodule/gmodulexpcom;1");
-		if (gx) {
+		nsCOMPtr<nsIGmoduleXpcom> gmoduleXpcom = do_CreateInstance("@mozilla.org/gmodule/gmodulexpcom;1");
+		if (gmoduleXpcom) {
 			int32_t ret = -1;
-			gx->SetData(data, &ret);
-			//gx->GetData(&ret);
+			gmoduleXpcom->SetData(data, &ret);
 		}
 
+		// GL set draw type here, will draw in LayerCompositeManager
 		GOpengles::SetDrawType(data);
-
 		return true;
 	}
 	
