@@ -6,7 +6,6 @@
 #include "Ghwcomposer.h"
 #include "Ggralloc.h"
 #include "Grotation.h"
-//#include "GOpengles.h"
 
 #include <android/log.h>
 #undef LOG
@@ -49,13 +48,9 @@ GmoduleXpcom::SetData(const nsAString& data, int32_t *ret) {
    //     	BinderTest::instantiate()->grallocRender(); 
             break;
         case 3:
-   //     	pRender = new Grotation();
+        	pRender = new Grotation();
         	break;
-
         case 4:
-            LOG("Create GOpengles instantiate");
-            //pRender = new GOpengles();
-        case 5:
             pRender = new Ggralloc();
         case 0:
         default:

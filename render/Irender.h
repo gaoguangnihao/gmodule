@@ -5,9 +5,14 @@
 #include "base/basictypes.h"
 #include "nsAString.h"
 
-class Irender
+#include "mozilla/GenericRefCounted.h"
+
+using namespace mozilla;
+
+class Irender : public GenericAtomicRefCounted
 {
 public:
+	MOZ_DECLARE_REFCOUNTED_VIRTUAL_TYPENAME(Irender)
 	Irender(){};
 	~Irender(){};
 	

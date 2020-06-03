@@ -28,11 +28,6 @@ void GOpengles::SetDrawType(const nsAString& data){
  	mDrawType = DrawType(ret);
  }
 
- void
- GOpengles::render() {
-
- }
-
 void 
 GOpengles::render(Compositor *aCompositor) {
 	LOG("Render called, draw type is %d", mDrawType);

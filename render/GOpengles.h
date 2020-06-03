@@ -2,7 +2,6 @@
 #ifndef GOPENGLES
 #define GOPENGLES 
 
-#include "Irender.h"
 #include "nsIWidget.h"
 #include "nsIWidgetListener.h"
 
@@ -26,14 +25,13 @@ enum DrawType
 	TYPE_TEXTURE
 };
 
-class GOpengles : public Irender,
-				public GenericAtomicRefCounted
+class GOpengles : public GenericAtomicRefCounted
 {
 public:
+	MOZ_DECLARE_REFCOUNTED_VIRTUAL_TYPENAME(GOpengles)
 	GOpengles(){};
 	~GOpengles(){};
 
-	void render();
 	void render(mozilla::layers::Compositor *aCompositor);
 
 	static void SetDrawType(DrawType type);

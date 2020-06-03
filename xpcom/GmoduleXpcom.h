@@ -6,6 +6,7 @@
 #include "base/basictypes.h"
 #include "mozilla/ClearOnShutdown.h"
 #include "mozilla/StaticPtr.h"
+#include "mozilla/RefPtr.h"
 #include "mozilla/Services.h"
 #include "nsIGmoduleXpcom.h"
 
@@ -32,7 +33,7 @@ private:
 
 	int GetEventTypeFromData(const nsAString& data);
 	
-	Irender* pRender;
+	 RefPtr<Irender> pRender;
 
 	int mDataCache;
 };
