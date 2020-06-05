@@ -6,11 +6,8 @@
 #include "base/basictypes.h"
 #include "mozilla/ClearOnShutdown.h"
 #include "mozilla/StaticPtr.h"
-#include "mozilla/RefPtr.h"
 #include "mozilla/Services.h"
 #include "nsIGmoduleXpcom.h"
-
-#include "Irender.h"
 
 namespace mozilla {
 namespace dom {
@@ -32,8 +29,6 @@ private:
 	static StaticRefPtr<GmoduleXpcom> sSingleton;
 
 	int GetEventTypeFromData(const nsAString& data);
-	
-	 RefPtr<Irender> pRender;
 
 	int mDataCache;
 };

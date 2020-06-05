@@ -7,6 +7,9 @@
 #include "Ggralloc.h"
 #include "Grotation.h"
 
+#include "mozilla/RefPtr.h"
+#include "Irender.h"
+
 #include <android/log.h>
 #undef LOG
 #define LOG(args...) \
@@ -20,8 +23,7 @@ namespace gmodule {
 
 NS_IMPL_ISUPPORTS(GmoduleXpcom, nsIGmoduleXpcom)
 
-GmoduleXpcom:: GmoduleXpcom()
-:pRender(nullptr){
+GmoduleXpcom:: GmoduleXpcom(){
     mDataCache = 0;
 }
 
@@ -37,27 +39,31 @@ GmoduleXpcom::GetData(int32_t *ret) {
 
 NS_IMETHODIMP
 GmoduleXpcom::SetData(const nsAString& data, int32_t *ret) {
-    LOG("SetData data %s",  NS_ConvertUTF16toUTF8(data).get());
-    convertEventType(data, mDataCache);
-	switch(mDataCache) {
-        case 1:
-	        pRender = new Ghwcomposer();
-            break;
-        case 2:
-        	LOG("Initializing BinderTest");
-   //     	BinderTest::instantiate()->grallocRender(); 
-            break;
-        case 3:
-        	pRender = new Grotation();
-        	break;
-        case 4:
-            pRender = new Ggralloc();
-        case 0:
-        default:
-            break;
+    LOG("SetData data 111 %s",  NS_ConvertUTF16toUTF8(data).get());
+    Irender* pRender = new Grotation();
+ //    convertEventType(data, mDataCache);
+	// switch(mDataCache) {
+ //        case 1:
+	//         pRender = new Ghwcomposer();
+ //            break;
+ //        case 2:
+ //        	LOG("Initializing BinderTest");
+ //   //     	BinderTest::instantiate()->grallocRender(); 
+ //            break;
+ //        case 3:
+ //        	pRender = new Grotation();
+ //        	break;
+ //        case 4:
+ //            pRender = new Ggralloc();
+ //        case 0:
+ //        default:
+ //            break;
+ //    } 
+    
+    if (pRender) {
+     	pRender->render();
+        delete pRender;
     }
-    if (pRender)
-    	pRender->render();
 	return NS_OK;
 }
 
