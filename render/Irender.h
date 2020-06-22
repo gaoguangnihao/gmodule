@@ -1,18 +1,15 @@
 
 #ifndef IRENDER_H
-#define IRENDER_H value
+#define IRENDER_H 
 
 #include "base/basictypes.h"
 #include "nsAString.h"
 
-#include "mozilla/GenericRefCounted.h"
-
 using namespace mozilla;
 
-class Irender : public GenericAtomicRefCounted
+class Irender
 {
 public:
-	MOZ_DECLARE_REFCOUNTED_VIRTUAL_TYPENAME(Irender)
 	Irender(){};
 	~Irender(){};
 	

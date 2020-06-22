@@ -40,30 +40,8 @@ GmoduleXpcom::GetData(int32_t *ret) {
 NS_IMETHODIMP
 GmoduleXpcom::SetData(const nsAString& data, int32_t *ret) {
     LOG("SetData data 111 %s",  NS_ConvertUTF16toUTF8(data).get());
-    Irender* pRender = new Grotation();
- //    convertEventType(data, mDataCache);
-	// switch(mDataCache) {
- //        case 1:
-	//         pRender = new Ghwcomposer();
- //            break;
- //        case 2:
- //        	LOG("Initializing BinderTest");
- //   //     	BinderTest::instantiate()->grallocRender(); 
- //            break;
- //        case 3:
- //        	pRender = new Grotation();
- //        	break;
- //        case 4:
- //            pRender = new Ggralloc();
- //        case 0:
- //        default:
- //            break;
- //    } 
-    
-    if (pRender) {
-     	pRender->render();
-        delete pRender;
-    }
+    RefPtr<Grotation> pRender(new Grotation());
+    pRender->render();
 	return NS_OK;
 }
 
