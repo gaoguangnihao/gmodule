@@ -83,11 +83,16 @@ void GOpengles::drawColor(Compositor *aCompositor) {
 void GOpengles::drawTexture(Compositor *aCompositor) {
 	nsIWidget* aWidget = aCompositor->GetWidget();
 	nsWindow* aWindow = static_cast<nsWindow*>(aWidget);
+
+	// Ensure cursor manager.
 	GLCursorImageManager* aGLimage = aWindow->GetGLCursorImageManager();
+
+	MOZ_ASSERT(aGLimage);
 
 	if (!aGLimage->IsCursorImageReady(eCursor_standard)) {
 		LOG("Load cursor image");
-		aGLimage->PrepareCursorImage(eCursor_standard, aWindow);
+//		aGLimage->PrepareCursorImage(eCursor_standard, aWindow);
+//		aWindow->SetCursor(eCursor_standard);
 	} else {
 		GLCursorImageManager::GLCursorImage cursorImage =
 	                aGLimage->GetGLCursorImage(eCursor_standard);
